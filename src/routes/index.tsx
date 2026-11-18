@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type CSSProperties } from "react";
 import inventory from "@/lib/herbarium-data.json";
 import { qrMatrix } from "@/lib/qr-matrix.js";
 import { createFileRoute } from "@tanstack/react-router";
@@ -49,6 +49,7 @@ function ImportedHeaderETNOHERBA() {
   const { state, update } = useHerb();
   const plant = plants.find(p => p.id === state.plant) ?? plants[0];
   const tr = (key: string) => translate(state.lang, key);
+  if (!plant) return null;
   return (
     <header className={"\x62g-botanical-900 text-white \x73ticky \x73hadow-md no-print \x62order-b \x62order-botanical-800 [&]:sticky [box-shadow:var(--tw-ring-offset-shadow,0_0_#0000),var(--tw-ring-shadow,0_0_#0000),var(--tw-shadow)] [top:0px] [z-index:50]"}>
       <div className={"\x6dx-auto \x70x-4 \x73m:\x70x-6 \x6cg:\x70x-8 \x70y-2.\x35 flex flex-wrap \x6dd:\x66lex-nowrap gap-2.5 \x6dd:\x67ap-4 [&]:items-center [&]:justify-between [max-width:80rem] [min-height:5rem]"}>
@@ -62,7 +63,7 @@ function ImportedHeaderETNOHERBA() {
           </div>
         </div>
         <div className={"w-full \x6dd:\x77-auto \x6frder-3 \x6dd:\x6frder-2 [&]:relative [@media(min-width:768px)]:flex-1 [@media(min-width:768px)]:[max-width:28rem]"} id="header-search-wrap">
-          <div className={"flex \x62g-botanical-950/\x375 \x62order \x62order-botanical-800 \x66ocus-within:\x62order-emerald-400 \x66ocus-within:\x72ing-2 \x66ocus-within:\x72ing-emerald-400/\x325 rounded-2xl \x70y-2 \x74ransition-all [&]:items-center [padding-left:0.875rem] [padding-right:0.875rem] [transition-property:all] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] [&:focus-within]:[box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0_0_#0000)]"}><i className={"fa-solid fa-magnifying-glass \x74ext-emerald-300/\x380 \x74ext-xs mr-2.5 [flex-shrink:0]"} /><input className={"w-full bg-transparent \x74ext-xs \x73m:\x74ext-sm text-white placeholder-emerald-200/60 \x66ocus:\x6futline-none"} id="plant-search-input" value={state.query} onChange={e => update({ query: e.target.value })} type="text" autoComplete="off" spellCheck="false" placeholder="Bitki, Latince ad, il veya bölge ara..." aria-label="Bitki veya bölge ara" /><button className={"hidden ml-2 \x74ext-emerald-300/\x375 \x68over:\x74ext-white \x74ext-xs p-1 transition-colors"} id="plant-search-clear" type="button" aria-label="Aramayı temizle" title="Aramayı temizle">{"\n                        "}<i className="fa-solid fa-xmark" />{"\n                    "}</button></div>
+          <div className={"flex \x62g-botanical-950/\x375 \x62order \x62order-botanical-800 \x66ocus-within:\x62order-emerald-400 \x66ocus-within:\x72ing-2 \x66ocus-within:\x72ing-emerald-400/\x325 rounded-2xl \x70y-2 \x74ransition-all [&]:items-center [padding-left:0.875rem] [padding-right:0.875rem] [transition-property:all] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] [&:focus-within]:[box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0_0_#0000)]"}><i className={"fa-solid fa-magnifying-glass \x74ext-emerald-300/\x380 \x74ext-xs mr-2.5 [flex-shrink:0]"} /><input className={"w-full bg-transparent \x74ext-xs \x73m:\x74ext-sm text-white placeholder-emerald-200/60 \x66ocus:\x6futline-none"} id="plant-search-input" value={state.query} onChange={e => update({ query: e.target.value })} type="text" autoComplete="off" spellCheck="false" placeholder={state.lang === "en" ? "Search plants, Latin name, province or region..." : "Bitki, Latince ad, il veya bölge ara..."} aria-label="Bitki veya bölge ara" /><button className={"hidden ml-2 \x74ext-emerald-300/\x375 \x68over:\x74ext-white \x74ext-xs p-1 transition-colors"} id="plant-search-clear" type="button" aria-label="Aramayı temizle" title="Aramayı temizle">{"\n                        "}<i className="fa-solid fa-xmark" />{"\n                    "}</button></div>
           <SearchResults />
         </div>
         <nav className={"flex \x73pace-x-1.\x35 \x73m:\x73pace-x-3 \x74ext-sm \x66ont-medium \x6frder-2 \x6dd:\x6frder-3 [&]:items-center [flex-shrink:0]"}><button className={"\x70x-3 \x73m:\x70x-4 \x70y-2 rounded-xl \x62g-botanical-800 text-emerald-300 transition-colors flex \x73pace-x-2 [&]:items-center"} id="nav-map-view" onClick={() => update({ view: "map-view", query: "" })}>{"\n                    "}<i className="fa-solid fa-map" />{"\n                    "}<span className={"hidden \x6dd:\x69nline"}>{tr("nav.mapFull")}</span>{"\n                    "}<span className={"\x6dd:\x68idden"}>{tr("nav.mapShort")}</span>{"\n                "}</button><button className={"\x70x-3 \x73m:\x70x-4 \x70y-2 rounded-xl \x68over:\x62g-botanical-800 text-botanical-200 transition-colors flex \x73pace-x-2 [&]:items-center"} id="nav-qr-hub-view" onClick={() => update({ view: "qr-hub-view", query: "" })}>{"\n                    "}<i className="fa-solid fa-qrcode" />{"\n                    "}<span className={"hidden \x6dd:\x69nline"}>{tr("nav.qrFull")}</span>{"\n                    "}<span className={"\x6dd:\x68idden"}>{tr("nav.qrShort")}</span>{"\n                "}</button><div className={"flex \x62g-botanical-950/\x370 \x62order \x62order-botanical-800 rounded-xl p-1 ml-1 [&]:items-center"} role="group" aria-label="Language switcher"><button className={"\x70x-2 \x73m:\x70x-2.\x35 \x70y-1 rounded-lg \x74ext-xs \x66ont-bold \x74ransition-all \x62g-emerald-600 text-white \x73hadow-sm [box-shadow:var(--tw-ring-offset-shadow,0_0_#0000),var(--tw-ring-shadow,0_0_#0000),var(--tw-shadow)] [transition-property:all] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]"} type="button" id="lang-btn-tr" onClick={() => update({ lang: "tr" })}>TR</button><button className={"\x70x-2 \x73m:\x70x-2.\x35 \x70y-1 rounded-lg \x74ext-xs \x66ont-bold \x74ransition-all text-botanical-200 \x68over:\x74ext-white [transition-property:all] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]"} type="button" id="lang-btn-en" onClick={() => update({ lang: "en" })}>EN</button></div></nav>
@@ -75,6 +76,7 @@ function ImportedSectionTRkiyeEtnobotanikHaritas() {
   const { state, update } = useHerb();
   const plant = plants.find(p => p.id === state.plant) ?? plants[0];
   const tr = (key: string) => translate(state.lang, key);
+  if (!plant) return null;
   return (
     <section className={"\x73pace-y-6".replace("hidden", "") + (state.view === "map-view" ? "" : " hidden")} id="map-view">
       <div className={"\x62g-white rounded-3xl p-5 \x6dd:\x70-6 \x73hadow-sm \x62order \x62order-slate-200 flex flex-col \x6dd:\x66lex-row gap-4 reveal is-visible reveal-scale is-visible [&]:items-center [&]:justify-between [animation:0.5s_ease-in-out_0s_1_normal_none_running_fadeIn] [box-shadow:var(--tw-ring-offset-shadow,0_0_#0000),var(--tw-ring-shadow,0_0_#0000),var(--tw-shadow)]"}>
@@ -722,6 +724,7 @@ function ImportedSectionKazdaGKnar() {
   const { state, update } = useHerb();
   const plant = plants.find(p => p.id === state.plant) ?? plants[0];
   const tr = (key: string) => translate(state.lang, key);
+  if (!plant) return null;
   return (
     <section className={"\x73pace-y-6 hidden".replace("hidden", "") + (state.view === "plant-page-view" ? "" : " hidden")} id="plant-page-view">
       <div className={"flex no-print flex-wrap reveal is-visible reveal-scale [&]:items-center [&]:justify-between [gap:0.5rem]"}>
@@ -766,7 +769,7 @@ function ImportedSectionKazdaGKnar() {
                 <i className="fa-solid fa-shield-heart text-emerald-600" />
                 <span>{tr("plant.consTitle")}</span>
               </h4>
-              <p className={"\x74ext-lg \x66ont-bold reveal-text"} style={{ "--td": "155ms" } as CSSProperties} id="cons-label" />
+              <p className={"\x74ext-lg \x66ont-bold reveal-text"} style={{ "--td": "155ms" } as CSSProperties} id="cons-label">{conservation(plant,state.lang).label}</p>
               <div className={"[&]:relative [padding-top:1rem]"}>
                 <span className={"text-slate-800 \x74ransition-all \x64uration-700 [&]:absolute [top:0px] [transition-property:all] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]"} id="cons-pointer">
                   <i className="fa-solid fa-caret-down" />
@@ -784,7 +787,7 @@ function ImportedSectionKazdaGKnar() {
                   <span className={"[&]:text-right"}>{tr("cons.critShort")}</span>
                 </div>
               </div>
-              <p className={"\x74ext-xs text-slate-600 \x6ceading-relaxed reveal-text"} style={{ "--td": "220ms" } as CSSProperties} id="cons-desc" />
+              <p className={"\x74ext-xs text-slate-600 \x6ceading-relaxed reveal-text"} style={{ "--td": "220ms" } as CSSProperties} id="cons-desc">{conservation(plant,state.lang).desc}</p>
               <p className="text-[10px] text-slate-400 italic reveal-text" style={{ "--td": "285ms" } as CSSProperties}>{tr("plant.consDisclaimer")}</p>
             </div>
             <div className={"\x62g-botanical-900 text-white p-6 rounded-3xl \x73hadow-lg text-center flex flex-col [&]:items-center [&]:justify-between [box-shadow:var(--tw-ring-offset-shadow,0_0_#0000),var(--tw-ring-shadow,0_0_#0000),var(--tw-shadow)]"}>
@@ -815,6 +818,7 @@ function ImportedSectionQRKodYazdRma() {
   const { state, update } = useHerb();
   const plant = plants.find(p => p.id === state.plant) ?? plants[0];
   const tr = (key: string) => translate(state.lang, key);
+  if (!plant) return null;
   return (
     <section className={"\x73pace-y-6 hidden".replace("hidden", "") + (state.view === "qr-hub-view" ? "" : " hidden")} id="qr-hub-view">
       <div className={"\x62g-white rounded-3xl p-6 \x6dd:\x70-8 \x73hadow-sm \x62order \x62order-slate-200 \x73pace-y-6 reveal is-visible reveal-scale [box-shadow:var(--tw-ring-offset-shadow,0_0_#0000),var(--tw-ring-shadow,0_0_#0000),var(--tw-shadow)]"}>
@@ -823,7 +827,7 @@ function ImportedSectionQRKodYazdRma() {
             <h2 className={"\x66ont-serif \x74ext-2xl \x6dd:\x74ext-3xl \x66ont-bold text-slate-900"}>{tr("qr.title")}</h2>
             <p className={"\x74ext-sm text-slate-600 mt-1 reveal-text"} style={{ "--td": "220ms" } as CSSProperties}>{tr("qr.subtitle")}</p>
           </div>
-          <button className={"\x70x-5 \x70y-2.\x35 \x62g-emerald-700 \x68over:\x62g-emerald-800 text-white \x66ont-medium rounded-xl \x74ext-sm \x74ransition-all \x73hadow-md flex \x73pace-x-2 no-print [&]:items-center [box-shadow:var(--tw-ring-offset-shadow,0_0_#0000),var(--tw-ring-shadow,0_0_#0000),var(--tw-shadow)] [transition-property:all] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]"}>{"\n                        "}<i className="fa-solid fa-print" />{"\n                        "}<span>{tr("qr.printAll")}</span>{"\n                    "}</button>
+          <button onClick={() => window.print()} className={"\x70x-5 \x70y-2.\x35 \x62g-emerald-700 \x68over:\x62g-emerald-800 text-white \x66ont-medium rounded-xl \x74ext-sm \x74ransition-all \x73hadow-md flex \x73pace-x-2 no-print [&]:items-center [box-shadow:var(--tw-ring-offset-shadow,0_0_#0000),var(--tw-ring-shadow,0_0_#0000),var(--tw-shadow)] [transition-property:all] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)]"}>{"\n                        "}<i className="fa-solid fa-print" />{"\n                        "}<span>{tr("qr.printAll")}</span>{"\n                    "}</button>
         </div>
         <QrHub />
       </div>
@@ -835,6 +839,7 @@ function ImportedFooter() {
   const { state, update } = useHerb();
   const plant = plants.find(p => p.id === state.plant) ?? plants[0];
   const tr = (key: string) => translate(state.lang, key);
+  if (!plant) return null;
   return (
     <footer className={"\x62g-botanical-950 text-white mt-8 no-print"}>
       <div className={"\x6dx-auto \x70x-4 \x73m:\x70x-6 \x6cg:\x70x-8 reveal is-visible reveal-scale is-visible [max-width:80rem] [padding-bottom:2rem] [padding-top:2rem]"}>
@@ -852,13 +857,13 @@ function ImportedFooter() {
             <h4 className={"\x66ont-serif \x66ont-bold text-emerald-300 \x74ext-sm is-visible"}>{tr("footer.quickTitle")}</h4>
             <ul className={"\x73pace-y-1 \x74ext-xs text-slate-400"}>
               <li className="reveal-text is-visible" style={{ "--td": "90ms" } as CSSProperties}>
-                <button className={"\x68over:\x74ext-emerald-300 transition-colors"}>
+                <button onClick={() => update({view:"map-view"})} className={"\x68over:\x74ext-emerald-300 transition-colors"}>
                   <i className="fa-solid fa-chevron-right text-[8px] mr-1" />
                   <span>{tr("nav.mapFull")}</span>
                 </button>
               </li>
               <li className="reveal-text is-visible" style={{ "--td": "155ms" } as CSSProperties}>
-                <button className={"\x68over:\x74ext-emerald-300 transition-colors"}>
+                <button onClick={() => update({view:"qr-hub-view"})} className={"\x68over:\x74ext-emerald-300 transition-colors"}>
                   <i className="fa-solid fa-chevron-right text-[8px] mr-1" />
                   <span>{tr("footer.linkQr")}</span>
                 </button>
@@ -889,7 +894,7 @@ const photos: Record<string, { src: string; page: string; credit: string; licens
 const regionInfo: Record<string, Record<string, { fact: string; climate: string; landscape: string }>> = inventory.regionInfo;
 const HerbContext = createContext<Context | null>(null);
 function useHerb() { const context = useContext(HerbContext); if (!context) throw new Error('Missing herbarium context'); return context; }
-function translate(lang: string, key: string) { return translations[lang]?.[key] ?? translations.tr?.[key] ?? key; }
+function translate(lang: string, key: string) { return translations[lang]?.[key] ?? translations["tr"]?.[key] ?? key; }
 function regionName(lang: string, id: string) { return lang === 'en' ? regions[id]?.titleEn ?? '' : regions[id]?.title ?? ''; }
 function provinceName(region: string, id: string) { return provinces[region]?.[id]?.name ?? id; }
 function plantText(plant: Plant | undefined, lang: string, key: string) { if (!plant) return ''; const translated = lang === 'en' ? english[plant.id]?.[key] : undefined; return translated ?? (key === 'name' ? plant.turkishName : String(plant[key as keyof Plant] ?? '')); }
@@ -951,5 +956,5 @@ function QrCode({id,size}: {id:string;size:number}) {
 function QrHub() {
  const {state,update} = useHerb();
  const list = plants.filter(p => state.filter === 'all' || p.regionId === state.filter);
- return <><div id="qr-filter-buttons" className="qr-filters">{['all',...Object.keys(regions)].map(id => <button key={id} className={'qr-filter'+(state.filter===id?' selected':'')} onClick={() => update({filter:id})}>{id==='all' ? translate(state.lang,'qr.all') : regionName(state.lang,id)}</button>)}</div><div id="qr-print-grid" className="qr-grid">{list.map(p => <div className="qr-card" key={p.id}><button onClick={() => openPlant(update,p.id)} aria-label={plantText(p,state.lang,'name')}><QrCode id={p.id} size={100}/></button><b>{plantText(p,state.lang,'name')}</b><i>{p.scientificName}</i><small>{regionName(state.lang,p.regionId)}</small><small>ID: {p.id}</small></div>)}</div></>;
+ return <><div id="qr-filter-buttons" className="qr-filters">{['all',...Object.keys(regions)].map(id => <button key={id} className={'qr-filter'+(state.filter===id?' selected':'')} onClick={() => update({filter:id})}>{id==='all' ? state.lang === 'en' ? 'All' : 'Tümü' : regionName(state.lang,id)}</button>)}</div><div id="qr-print-grid" className="qr-grid">{list.map(p => <div className="qr-card" key={p.id}><button onClick={() => openPlant(update,p.id)} aria-label={plantText(p,state.lang,'name')}><QrCode id={p.id} size={100}/></button><b>{plantText(p,state.lang,'name')}</b><i>{p.scientificName}</i><small>{regionName(state.lang,p.regionId)}</small><small>ID: {p.id}</small></div>)}</div></>;
 }
