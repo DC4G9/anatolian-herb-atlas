@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, type CSSProperties } from "react";
 import inventory from "@/lib/herbarium-data.json";
+import recoveredMedia from "@/lib/herbarium-media.json";
 import { qrMatrix } from "@/lib/qr-matrix.js";
 import { createFileRoute } from "@tanstack/react-router";
 import capturedCSS from "../styles/site.css?raw";
@@ -890,6 +891,7 @@ const regions: Record<string, Region> = inventory.regions;
 const translations: Record<string, Record<string, string>> = inventory.translations;
 const english: Record<string, Record<string, string>> = inventory.english;
 const provinces: Record<string, Record<string, { name: string; active: boolean; count: number; desc?: string; descEn?: string }>> = inventory.provinces;
+const media: Record<string, string> = recoveredMedia;
 const photos: Record<string, { src: string; page: string; credit: string; license: string }[]> = inventory.photos;
 const regionInfo: Record<string, Record<string, { fact: string; climate: string; landscape: string }>> = inventory.regionInfo;
 const HerbContext = createContext<Context | null>(null);
@@ -940,10 +942,10 @@ function DrawerPlants() {
 function PlantGallery() {
  const {state,update} = useHerb();
  const plant = plants.find(p => p.id === state.plant);
- const gallery = photos[state.plant] ?? [];
+ const gallery = (photos[state.plant] ?? []).filter(p => media[p.src]);
  const photo = gallery[state.photo % Math.max(1,gallery.length)];
  if (!photo) return <div id="plant-gallery" className="gallery-unavailable">{state.lang === 'en' ? 'Photo unavailable' : 'Fotoğraf bulunamadı'}</div>;
- return <div id="plant-gallery"><div className="gallery-stage"><img id="gallery-main" src={photo.src} alt={plantText(plant,state.lang,'name')} /><button className="gallery-prev" aria-label="Önceki fotoğraf" onClick={() => update({photo:(state.photo+gallery.length-1)%gallery.length})}><i className="fa-solid fa-chevron-left" /></button><button className="gallery-next" aria-label="Sonraki fotoğraf" onClick={() => update({photo:(state.photo+1)%gallery.length})}><i className="fa-solid fa-chevron-right" /></button><span className="gallery-count">{state.photo+1}/{gallery.length}</span></div><div className="gallery-thumbs">{gallery.map((p,i) => <button key={p.src} aria-label={`${i+1}. fotoğraf`} onClick={() => update({photo:i})}><img src={p.src} alt={plantText(plant,state.lang,'name')} /></button>)}</div><p className="gallery-credit"><a href={photo.page} target="_blank" rel="noreferrer">© {photo.credit} · {photo.license}</a></p></div>;
+ return <div id="plant-gallery"><div className="gallery-stage"><img id="gallery-main" src={media[photo.src]} alt={plantText(plant,state.lang,'name')} /><button className="gallery-prev" aria-label="Önceki fotoğraf" onClick={() => update({photo:(state.photo+gallery.length-1)%gallery.length})}><i className="fa-solid fa-chevron-left" /></button><button className="gallery-next" aria-label="Sonraki fotoğraf" onClick={() => update({photo:(state.photo+1)%gallery.length})}><i className="fa-solid fa-chevron-right" /></button><span className="gallery-count">{state.photo+1}/{gallery.length}</span></div><div className="gallery-thumbs">{gallery.map((p,i) => <button key={p.src} aria-label={`${i+1}. fotoğraf`} onClick={() => update({photo:i})}><img src={media[p.src]} alt={plantText(plant,state.lang,'name')} /></button>)}</div><p className="gallery-credit"><a href={photo.page} target="_blank" rel="noreferrer">© {photo.credit} · {photo.license}</a></p></div>;
 }
 function QrCode({id,size}: {id:string;size:number}) {
  const [origin,setOrigin] = useState('');

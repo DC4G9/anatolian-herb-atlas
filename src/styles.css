@@ -204,3 +204,6 @@
 @media(max-width:639px) { .qr-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } #expanded-region-drawer { position:relative; inset:auto; width:100%; max-height:70vh; margin-top:12px; } #map-view > div:nth-child(2) { flex-wrap:wrap; } }
 @media print { .qr-filters,.gallery-prev,.gallery-next { display:none; }.qr-card { break-inside:avoid; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+/* Captured reveal animations are static until a faithful motion implementation is supplied. */
+.reveal.is-visible { opacity:1; transform:none; filter:none; }
+#plant-page-view .reveal, #map-view .reveal, #qr-hub-view .reveal { animation:none; }
