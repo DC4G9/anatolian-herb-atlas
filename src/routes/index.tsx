@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type CSSProperties } fr
 import inventory from "@/lib/herbarium-data.json";
 import recoveredMedia from "@/lib/herbarium-media.json";
 import { qrMatrix } from "@/lib/qr-matrix.js";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import capturedCSS from "../styles/site.css?raw";
 
 export const Route = createFileRoute("/")({
@@ -37,6 +37,7 @@ function Index() {
       <ImportedHeaderETNOHERBA />
       <main className={"w-full \x6dx-auto \x70x-4 \x73m:\x70x-6 \x6cg:\x70x-8 grow [max-width:80rem] [padding-bottom:1.5rem] [padding-top:1.5rem]"}>
         <ImportedSectionTRkiyeEtnobotanikHaritas />
+        <Link to="/oyun" className="game-invite"><span><b>🌿 Bilgini Test Et: Bitki Harita Oyunu</b><small>Haritadaki bitkileri rastgele soruyoruz — yetiştikleri ili bulabilir misin? 15, 30, 50 ya da tüm bitkiler.</small></span><span className="game-btn">Oyuna başla →</span></Link>
         <ImportedSectionKazdaGKnar />
         <ImportedSectionQRKodYazdRma />
       </main>

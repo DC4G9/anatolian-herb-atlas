@@ -207,3 +207,22 @@
 /* Captured reveal animations are static until a faithful motion implementation is supplied. */
 .reveal.is-visible { opacity:1; transform:none; filter:none; }
 #plant-page-view .reveal, #map-view .reveal, #qr-hub-view .reveal { animation:none; }
+.game { max-width:80rem; margin:auto; padding:16px; color:var(--herb-ink); }
+.game-top { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:16px; }.game-top h1 { font-family:'Cinzel',serif; font-size:clamp(20px,3vw,30px); font-weight:700; }
+.game-back { color:var(--herb-green); font-weight:600; }
+.game-card { background:var(--herb-paper); border:1px solid var(--herb-line); border-radius:16px; padding:16px 20px; box-shadow:var(--herb-shadow); margin-bottom:16px; }
+.game-start p { margin-bottom:12px; } .game-start h2,.game-q h2 { font-family:'Cinzel',serif; font-size:22px; font-weight:700; }
+.game-q { display:flex; justify-content:space-between; align-items:center; gap:12px; position:sticky; top:8px; z-index:5; } .game-q small,.game-q i { color:var(--herb-muted); }
+.game-sizes,.game-stats { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; } .game-stats span { background:var(--herb-soft); padding:6px 12px; border-radius:12px; font-weight:600; }
+.game-btn { background:var(--herb-green); color:var(--herb-paper); padding:10px 18px; border-radius:12px; font-weight:700; } .game-btn:hover { filter:brightness(1.1); }
+.game-chip { background:var(--herb-soft); border:1px solid var(--herb-line); padding:8px 14px; border-radius:12px; font-weight:600; font-size:13px; }
+.game-map { background:var(--herb-soft); border:1px solid var(--herb-line); border-radius:16px; padding:8px; } .game-map svg { width:100%; height:auto; }
+.prov { fill:var(--herb-paper); stroke:var(--herb-line); stroke-width:1.2; cursor:pointer; transition:fill .25s; } .prov:hover { fill:var(--herb-warm); stroke:var(--herb-ink); }
+.p-green { fill:oklch(.68 .16 150) !important; } .p-yellow { fill:oklch(.85 .16 90) !important; } .p-red,.p-reveal { fill:oklch(.62 .2 27) !important; }
+.p-wrong { fill:oklch(.62 .2 27 / .35) !important; } .p-reveal { animation:game-pulse .5s 3; }
+@keyframes game-pulse { 50% { opacity:.4; } }
+.t-green { color:oklch(.5 .15 150); } .t-yellow { color:oklch(.6 .14 80); } .t-red { color:oklch(.55 .2 27); }
+.game-review { columns:2; font-size:13px; } .game-review li { padding:3px 8px; border-left:4px solid var(--herb-line); margin-bottom:4px; break-inside:avoid; }
+.r-green { border-color:oklch(.68 .16 150) !important; } .r-yellow { border-color:oklch(.85 .16 90) !important; } .r-red { border-color:oklch(.62 .2 27) !important; }
+.game-invite { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin:24px 0; padding:20px 24px; border-radius:20px; background:var(--herb-soft); border:1px solid var(--herb-line); color:var(--herb-ink); box-shadow:var(--herb-shadow); }
+.game-invite b { font-family:'Cinzel',serif; font-size:20px; display:block; } .game-invite small { color:var(--herb-muted); }
